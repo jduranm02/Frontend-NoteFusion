@@ -14,6 +14,7 @@ export class AddTaskComponent implements OnInit {
    title: '',
    description: '' 
   };
+
   constructor(private taskService: TaskService) { }
 
   ngOnInit() {

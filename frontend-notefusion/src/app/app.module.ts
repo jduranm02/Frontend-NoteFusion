@@ -7,6 +7,9 @@ import { AppComponent } from './app.component';
 import { AddTaskComponent } from './components/add-task/add-task/add-task.component';
 import { TasksComponent } from './components/tasks/tasks/tasks.component';
 import { TaskService } from './services/task.service';
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -17,7 +20,10 @@ import { TaskService } from './services/task.service';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule
   ],
   providers: [
     TaskService

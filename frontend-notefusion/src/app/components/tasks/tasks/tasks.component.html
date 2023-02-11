@@ -20,7 +20,7 @@
                     placeholder="Edit Description" [(ngModel)]="task.description">
               </div>
               <input type="submit" class="btn" value="Update Task">
-              <button class="btn red" (click)="deleteTask($event, task)">Delete Task</button>
+              <button class="btn red" (click)="deleteTask($event, task)">Eliminar Tarea</button>
             </div>
           </form>
         </div>
@@ -30,5 +30,5 @@
   </div>
   
   <ng-template #noTasks>
-    <h5>There is not Tasks yet.</h5>
+    <h5>No hay tareas agregadas.</h5>
   </ng-template>
