@@ -1,34 +1,70 @@
 <div class="card">
     <div class="card-content">
       <span class="card-title">Agregar Tarea</span>
-      <form (ngSubmit)="onSubmit()" class="col s6">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="col s6">
         <div class="row">
           <div class="input-field col-s6">
-            <input type="text" placeholder="Agregar titulo" [(ngModel)]="task.title" name="title">
+            <input type="text" name="title" class="form-control" formControlName="title" required="true">
             <label>Titulo</label>
+            <mat-error *ngIf="form.controls['title'].hasError('required') && form.controls['title'].touched">
+              Debe ingresar un título.
+            </mat-error>
           </div>
           <div class="input-field col-s6">
-              <input type="text" placeholder="Agregar descripción" [(ngModel)]="task.description" name="description">
+              <input type="text"  name="description" class="form-control" formControlName="description" required="true">
               <label>Descripción</label>
+              <mat-error *ngIf="form.controls['description'].hasError('required') && form.controls['description'].touched">
+                Debe ingresar una descripción.
+              </mat-error>
             </div>
+            <div class="date-division">
             <div class="input-field col-s6">
-                <input type="text" placeholder=""  name="prioridad">
-                <label>Prioridad</label>
-              </div>
-              <div class="input-field col-s6">
-                <input type="text" placeholder="" name="dificultad">
-                <label>Dificultad</label>
-              </div>
-              <div class="input-field col-s6">
-                <input type="text" placeholder="" name="fechaDesde">
-                <label>Fecha desde</label>
-              </div>
-              <div class="input-field col-s6">
-                <input type="text" class="datepicker" placeholder="" name="fechaHasta">
-                <label>Fecha hasta</label>
-              </div>
+            <mat-form-field class="form-control">
+              <mat-label>Fecha desde
+              </mat-label>
+              <input
+                required="true"
+                matInput
+                [matDatepicker]="picker"
+                formControlName="fechaDesde"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error *ngIf="form.controls['fechaDesde'].hasError('required')">
+                El valor de este campo no es válido.
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="input-field col-s6">
+            <mat-form-field class="form-control">
+              <mat-label>Fecha hasta
+              </mat-label>
+              <input
+                required="true"
+                matInput
+                [matDatepicker]="picker1"
+                formControlName="fechaHasta"
+                [min]="form.controls['fechaDesde'].value"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker1"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+              <mat-error *ngIf="form.controls['fechaHasta'].hasError('required')">
+                El valor de este campo no es válido.
+              </mat-error>
+              <mat-error *ngIf="form.controls['fechaHasta'].hasError('matDatepickerMin')">
+                La fecha hasta debe ser mayor a la fecha desde.
+              </mat-error>
+            </mat-form-field>
+          </div>
         </div>
-        <input type="submit" class="btn light-blue">
+        </div>
+        <input type="submit" class="btn light-blue" [disabled]="!form.valid">
       </form>
     </div>
   </div>

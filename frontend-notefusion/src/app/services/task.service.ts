@@ -1,40 +1,73 @@
 import { Injectable } from '@angular/core';
-
+import { HttpClient } from '@angular/common/http';
 import { Task } from '../models/task';
+import { catchError } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { Observable } from 'rxjs';
-
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TaskService {
-  // tasksCollection: AngularFirestoreCollection<Task>;
-  // tasks: Observable<Task[]>;
-  // taskDoc: AngularFirestoreDocument<Task>;
-
-  constructor() {
-    // this.tasksCollection = this.afs.collection('tasks');
-    // // this.tasks = this.afs.collection('tasks').valueChanges();
-    // this.tasks = this.tasksCollection.snapshotChanges().map(changes => {
-    //   return changes.map(a => {
-    //     const data = a.payload.doc.data() as Task;
-    //     data.id = a.payload.doc.id;
-    //     return data;
-    //   });
-    // });
-  }
+  
+  private environment = 'http://127.0.0.1:8000/tareas/works/';
+  
+  constructor (private http: HttpClient, private snackBar: MatSnackBar) {}
 
   getTasks() {
-    return "hola"; 
+    return this.http
+      .get<any>(
+        `${this.environment+'get'}`
+      )
+      .pipe(
+        catchError((error) => {
+          if (error) {
+            this.snackBar.open("Registros no encontrados", "Cerrar");
+          }
+          return [];
+        })
+      );
   }
 
   addTask(task: Task) {
-    console.log("hola");
+    console.log("ESTÁ ENTRANDO AL SERVICIO");
+    console.log(task);
+
+    return this.http
+    .post(`${this.environment+'post'}`, task
+    )
+    .pipe(
+      catchError((error) => {
+        if (error) {
+          this.snackBar.open("Error al crear la tarea", "Cerrar");
+        }
+        return [];
+      })
+    );
   }
 
-  deleteTask(task: Task) {
-    console.log("hola");
+  deleteTask(id: number) {
+    return this.http.delete(`${this.environment+'delete/'}+${id}`).pipe(
+      catchError((error) => {
+        if (error) {
+          this.snackBar.open("Error al eliminar la tarea", "Cerrar");
+        }
+        return [];
+      })
+    );
   }
 
   updateTask(task: Task) {
-    console.log("hola");
+    return this.http
+    .put(
+      `${this.environment+'put/'}${task.id}`, task
+    )
+    .pipe(
+      catchError((error) => {
+        if (error) {
+          this.snackBar.open("Error al editar la tarea", "Cerrar");
+        }
+        return [];
+      })
+    );
   }
 }

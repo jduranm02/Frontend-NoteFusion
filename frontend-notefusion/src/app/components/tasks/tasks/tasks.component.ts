@@ -1,8 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-
 import { TaskService } from 'src/app/services/task.service';
-
-import { Task } from 'src/app/models/task';
 
 @Component({
   selector: 'app-tasks',
@@ -18,18 +15,16 @@ export class TasksComponent implements OnInit {
   constructor(public taskService: TaskService) { }
 
   ngOnInit() {
-    // this.taskService.getTasks().subscribe(tasks => {
-    //   //console.log(tasks);
-    //   this.tasks = tasks;
-    // });
+    this.taskService.getTasks().subscribe(tasks => {
+    this.tasks = tasks.tareas;
+    });
   }
 
   deleteTask(event:any, task:any) {
-    // const response = confirm('are you sure you want to delete?');
-    // if (response ) {
-    //   this.taskService.deleteTask(task);
-    // }
-    // return;
+    console.log(task.id);
+    console.log("ENTRA AL IF DE ELIMINAR");
+    this.taskService.deleteTask(5);
+    return;
   }
 
   editTask(event:any, task:any) {

@@ -1,5 +1,7 @@
 export interface Task {
-    id?: string;
-    title?: string;
-    description?: string;
+    id: number | null;
+    title: string;
+    description: string;
+    fechaDesde: Date;
+    fechaHasta: Date;
 }
