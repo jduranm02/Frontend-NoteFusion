@@ -21,10 +21,13 @@ export class TasksComponent implements OnInit {
   }
 
   deleteTask(event:any, task:any) {
-    console.log(task.id);
-    console.log("ENTRA AL IF DE ELIMINAR");
-    this.taskService.deleteTask(5);
-    return;
+  //  const response = confirm('are you sure you want to delete?');
+  //   if (response) {
+  //     console.log(response);
+  //     console.log(task.id);
+  //   this.taskService.deleteTask(task.id);
+  //   }
+  //   return;
   }
 
   editTask(event:any, task:any) {

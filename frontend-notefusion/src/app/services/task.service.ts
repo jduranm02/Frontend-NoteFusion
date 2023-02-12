@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Task } from '../models/task';
+import { Task, TaksUpdate } from '../models/task';
 import { catchError } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -29,11 +29,8 @@ export class TaskService {
   }
 
   addTask(task: Task) {
-    console.log("ESTÁ ENTRANDO AL SERVICIO");
-    console.log(task);
-
     return this.http
-    .post(`${this.environment+'post'}`, task
+    .post<Task>(`${this.environment+'post'}`, task
     )
     .pipe(
       catchError((error) => {
@@ -46,7 +43,7 @@ export class TaskService {
   }
 
   deleteTask(id: number) {
-    return this.http.delete(`${this.environment+'delete/'}+${id}`).pipe(
+    return this.http.delete(`${this.environment+'delete/'}${id}`).pipe(
       catchError((error) => {
         if (error) {
           this.snackBar.open("Error al eliminar la tarea", "Cerrar");
@@ -56,7 +53,7 @@ export class TaskService {
     );
   }
 
-  updateTask(task: Task) {
+  updateTask(task: TaksUpdate) {
     return this.http
     .put(
       `${this.environment+'put/'}${task.id}`, task

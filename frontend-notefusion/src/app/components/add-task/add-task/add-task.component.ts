@@ -23,34 +23,49 @@ export class AddTaskComponent implements OnInit {
       fechaDesde: ['', [Validators.required]],
       fechaHasta: ['', [Validators.required]],
     });
-    let daticos = {
-      id: null,
-      "title": "siksss",
-      "description": "brayayin",
-      "fechaDesde": new Date(),
-      "fechaHasta": new Date(),
-  }
-  this.taskService.addTask(daticos);
-  }
-
+    // ESTO ES PARA QUEMAR EL DELETE
+    //this.taskService.deleteTask(18).subscribe();
+    // this.form.controls['id'].setValue(null);
+    // this.form.controls['title'].setValue('Tarea 1');
+    // this.form.controls['description'].setValue('Descripcion de la tarea 1');
+    // this.form.controls['fechaDesde'].setValue(new Date().toISOString());
+    // this.form.controls['fechaHasta'].setValue(new Date().toISOString());
+    // let variable = this.form.value as Task;
+    
+    const variable = {
+      title: 'Tarea 1',
+      description: 'Descripcion de la tarea 1',
+      fechaDesde: new Date().toISOString(),
+      fechaHasta: new Date().toISOString(),
+    }
+    console.log(variable);
+    let definitivo = variable as Task;
+    this.taskService.addTask(definitivo).subscribe(
+      (data) => {
+        console.log(data);
+      },
+    );
+    }
 
   ngOnInit(): void  {
   }
 
   onSubmit() {
-    console.log(this.form);
-    console.log(this.form.controls['fechaDesde'].value)
-    const task = this.form.value as Task;
-    console.log("ANTES DEL SERVICIO");
-    console.log(task);
-    this.taskService.addTask(task);
-    // if (this.form.valid) {
-    // console.log(this.form.value);
-    // this.taskService
-    // .addTask(this.form.value)
-    // this.snackbar.open("Tarea creada", "Cerrar");
-    // this.form.reset();
-    // }
+    if (this.form.valid) {
+    let variable = this.form.value;
+    let definitivo = variable as Task;
+    this.taskService
+    .addTask(definitivo).subscribe(
+      (data) => {
+        if(data){
+        this.snackbar.open("Tarea creada", "Cerrar");
+        this.form.reset();
+      }
+      }
+
+    )
+    
+    }
   }
 
 }
