@@ -1,9 +1,9 @@
 <div *ngIf="tasks?.length > 0;else noTasks">
     <ul *ngFor="let task of tasks" class="collection">
-      <li class="collection-item" (dblclick)="deleteTask($event, task)">
+      <li class="collection-item" (dblclick)="deleteTask(task)">
         <strong>{{ task.title }}</strong> : {{ task.description }} 
         <a href="#" class="secondary-content">
-          <i (click)="deleteTask($event, task)" class="fa fa-trash"></i>
+          <i (click)="deleteTask(task)" class="fa fa-trash"></i>
           <i (click)="editTask($event, task)" class="fa fa-pencil"></i>
         </a>
         <div *ngIf="editState && taskToEdit.id === task.id">
@@ -19,8 +19,7 @@
                     type="text" name="description"
                     placeholder="Edit Description" [(ngModel)]="task.description">
               </div>
-              <input type="submit" class="btn" value="Update Task">
-              <button class="btn red" (click)="deleteTask($event, task)">Eliminar Tarea</button>
+              <input type="submit" class="btn" value="Actualizar tarea">
             </div>
           </form>
         </div>

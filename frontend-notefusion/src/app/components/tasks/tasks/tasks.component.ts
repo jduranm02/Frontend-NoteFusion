@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { TaskService } from 'src/app/services/task.service';
 
 @Component({
@@ -12,7 +12,7 @@ export class TasksComponent implements OnInit {
   editState: boolean = false;
   taskToEdit: any;
 
-  constructor(public taskService: TaskService) { }
+  constructor(public taskService: TaskService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.taskService.getTasks().subscribe(tasks => {
@@ -20,25 +20,27 @@ export class TasksComponent implements OnInit {
     });
   }
 
-  deleteTask(event:any, task:any) {
-  //  const response = confirm('are you sure you want to delete?');
-  //   if (response) {
-  //     console.log(response);
-  //     console.log(task.id);
-  //   this.taskService.deleteTask(task.id);
-  //   }
-  //   return;
+  deleteTask(task:any) {
+  console.log(task);
+  const response = confirm('¿Estás seguro de que deseas eliminarlo?');
+   if (response) {
+   this.taskService.validateMethod("delete",task);
+   location.reload();
   }
+}
 
   editTask(event:any, task:any) {
-    // this.editState = !this.editState;
-    // this.taskToEdit = task;
+    this.editState = !this.editState;
+    this.taskToEdit = task;
   }
 
   updateTask(task:any) {
-    // this.taskService.updateTask(task);
-    // this.taskToEdit = null;
-    // this.editState = false;
+    this.taskService.validateMethod("update",task);
+    this.taskToEdit = null;
+    this.editState = false;
   }
 
+  updateTasksList() {
+    this.cdr.detectChanges();
+  }
 }

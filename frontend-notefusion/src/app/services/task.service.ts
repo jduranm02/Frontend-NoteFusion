@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Task, TaksUpdate } from '../models/task';
-import { catchError } from 'rxjs';
+import { catchError, Subject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
@@ -10,6 +10,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class TaskService {
   
   private environment = 'http://127.0.0.1:8000/tareas/works/';
+  public idTask = new Subject<number>();
+  public peticion = new Subject<string>();
+  public selectedTask = new Subject<any>();
   
   constructor (private http: HttpClient, private snackBar: MatSnackBar) {}
 
@@ -67,4 +70,40 @@ export class TaskService {
       })
     );
   }
+
+  public validateMethod(string: string, task: any) {
+    console.log("ENTRÉ AL SERVICIO");
+      this.enviarTask(task);
+      this.enviarId(task.id);
+      if(string == 'delete'){
+        this.enviarPeticion('delete');
+      }else
+      if(string == 'update'){
+        this.enviarPeticion('update');
+      }
+    }
+
+    enviarPeticion(peticion: string) {
+      this.peticion.next(peticion);
+    }
+  
+    obtenerPeticion() {
+      return this.peticion.asObservable();
+    }
+
+    enviarId(id: number) {
+      this.idTask.next(id);
+    }
+
+    obtenerId() {
+      return this.idTask.asObservable();
+    }
+
+    enviarTask(task: any) {
+      this.selectedTask.next(task);
+    }
+
+    obtenerTask() {
+      this.selectedTask.asObservable();
+    }
 }
